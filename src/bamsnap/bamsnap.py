@@ -535,6 +535,14 @@ class ReferenceSequence():
             refseq = self.get_refseq_from_localfasta(pos1)
         return refseq
 
+    def get_bound(self, chrom, offset):
+        if offset < 0:
+            return 0
+        rlen = len(self.fasta[chrom])
+        if offset > rlen:
+            return rlen
+
+
     # def set_refseq_from_ncbiapi(self):
     #     url = "http://www.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=nucleotide"
     #     url += "&id=NC_000001&seq_start=97533596&seq_stop=97533606&rettype=fasta&retmode=text"
@@ -569,6 +577,8 @@ class ReferenceSequence():
                 seq += line.strip().upper()
         i = 0
         refseq = {}
+        spos = self.get_bound(chrom, spos)
+        epos = self.get_bound(chrom, epos)
         for gpos in range(spos, epos):
             refseq[gpos] = seq[i]
             i += 1
@@ -577,7 +587,10 @@ class ReferenceSequence():
     def get_refseq_from_localfasta(self, pos1):
         spos = pos1['g_spos']-self.opt['margin'] - 500
         epos = pos1['g_epos']+self.opt['margin'] + 1 + 500
-        seq = self.get_refseq_from_fasta(pos1['chrom'], spos, epos, self.opt['ref_index_rebuild'])
+        chrom = pos1['chrom']
+        spos = self.get_bound(chrom, spos)
+        epos = self.get_bound(chrom, epos)
+        seq = self.get_refseq_from_fasta(chrom, spos, epos, self.opt['ref_index_rebuild'])
         i = 0
         refseq = {}
         for gpos in range(spos, epos):
