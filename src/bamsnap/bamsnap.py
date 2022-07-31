@@ -540,7 +540,7 @@ class ReferenceSequence():
             return 0
         rlen = len(self.fasta[chrom])
         if offset > rlen:
-            return rlen
+            return rlen-1
         return offset
 
 
