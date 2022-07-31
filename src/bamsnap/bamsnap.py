@@ -541,6 +541,7 @@ class ReferenceSequence():
         rlen = len(self.fasta[chrom])
         if offset > rlen:
             return rlen
+        return offset
 
 
     # def set_refseq_from_ncbiapi(self):
