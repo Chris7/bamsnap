@@ -26,15 +26,7 @@ class BamSnap():
         self.set_is_single_image_out()
 
     def set_is_single_image_out(self):
-        flag = False
-        if len(self.opt['poslist']) == 1:
-            if not self.opt['separated_bam']:
-                flag = True
-            else:
-                fnameuppper = self.opt['out'].upper()
-                if fnameuppper.endswith('.PNG') or fnameuppper.endswith('.JPG'):
-                    flag = True
-        self.is_single_image_out = flag
+        self.is_single_image_out = False
 
     def get_split_poslist(self, poslist, no_process):
         split_poslist = {}
